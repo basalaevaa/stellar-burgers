@@ -8,6 +8,7 @@ import {
   resetOrderState,
   setOrderLoading
 } from '../../services/slices/orderSlice';
+import { resetConstructor } from '../../services/slices/constructorSlice';
 
 export const BurgerConstructor: FC = () => {
   const navigate = useNavigate();
@@ -54,7 +55,11 @@ export const BurgerConstructor: FC = () => {
       navigate('/login');
       return;
     }
-    dispatch(orderBurger(fullIngredientList));
+    dispatch(orderBurger(fullIngredientList))
+      .unwrap()
+      .then(() => {
+        dispatch(resetConstructor());
+      });
     dispatch(setOrderLoading(true));
   };
 

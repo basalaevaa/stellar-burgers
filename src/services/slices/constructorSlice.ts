@@ -49,11 +49,19 @@ export const burgerConstructorSlice = createSlice({
       state.ingredients = state.ingredients.filter(
         (ingredient) => ingredient.id !== action.payload.id
       );
+    },
+    resetConstructor: (state) => {
+      state.bun = null;
+      state.ingredients = [];
     }
   }
 });
 
-export const { addIngredient, removeIngredient, moveIngredient } =
-  burgerConstructorSlice.actions;
+export const {
+  addIngredient,
+  removeIngredient,
+  moveIngredient,
+  resetConstructor
+} = burgerConstructorSlice.actions;
 
 export default burgerConstructorSlice.reducer;

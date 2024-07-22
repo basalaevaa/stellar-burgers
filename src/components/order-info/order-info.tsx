@@ -7,6 +7,9 @@ import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector, RootState } from '../../services/store';
 import { getOrderByNumber } from '../../services/slices/orderSlice';
 
+// Import styles
+import modalStyles from '../ui/modal/modal.module.css';
+
 export const OrderInfo: FC = () => {
   const { number } = useParams<{ number: string }>();
   const ordersNumber = Number(number);
@@ -19,14 +22,6 @@ export const OrderInfo: FC = () => {
   const ingredients: TIngredient[] = useSelector(
     (state: RootState) => state.ingredients.ingredients
   );
-
-  const handleClose = () => {
-    if (location.state && location.state.background) {
-      navigate(-1);
-    } else {
-      navigate('/feed');
-    }
-  };
 
   useEffect(() => {
     dispatch(getOrderByNumber(ordersNumber));
@@ -78,9 +73,26 @@ export const OrderInfo: FC = () => {
     return <Preloader />;
   }
 
-  return (
+  const handleClose = () => {
+    if (location.state && location.state.background) {
+      navigate(-1);
+    } else {
+      navigate('/feed');
+    }
+  };
+
+  const isModal = location.state && location.state.background;
+
+  return isModal ? (
     <Modal title='Информация о заказе' onClose={handleClose}>
       <OrderInfoUI orderInfo={orderInfo} />
     </Modal>
+  ) : (
+    <div className={modalStyles.modal}>
+      <h1 className={`${modalStyles.modal__title} text text_type_main-large`}>
+        Информация о заказе
+      </h1>
+      <OrderInfoUI orderInfo={orderInfo} />
+    </div>
   );
 };

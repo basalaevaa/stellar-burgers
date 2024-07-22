@@ -4,20 +4,32 @@ import { IngredientDetailsUI } from '../ui/ingredient-details';
 import { useSelector, RootState } from '../../services/store';
 import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import { Modal } from '@components';
+import modalStyles from '../ui/modal/modal.module.css';
 
 export const IngredientDetails: FC = () => {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const location = useLocation();
 
+  const ingredientsLoading = useSelector(
+    (state: RootState) => state.ingredients.isLoading
+  );
   const ingredientData = useSelector((state: RootState) =>
     state.ingredients.ingredients.find((ingredient) => ingredient._id === id)
   );
 
-  if (!ingredientData) {
+  if (ingredientsLoading) {
     return <Preloader />;
   }
 
-  const navigate = useNavigate();
-  const location = useLocation();
+  if (!ingredientData) {
+    return (
+      <div>
+        <p>Ингредиент не найден</p>
+        <button onClick={() => navigate('/')}>Вернуться на главную</button>
+      </div>
+    );
+  }
 
   const handleClose = () => {
     if (location.state && location.state.background) {
@@ -27,9 +39,18 @@ export const IngredientDetails: FC = () => {
     }
   };
 
-  return (
+  const isModal = location.state && location.state.background;
+
+  return isModal ? (
     <Modal title='Детали ингредиента' onClose={handleClose}>
       <IngredientDetailsUI ingredientData={ingredientData} />
     </Modal>
+  ) : (
+    <div className={modalStyles.modal}>
+      <h1 className={`${modalStyles.modal__title} text text_type_main-large`}>
+        Детали ингредиента
+      </h1>
+      <IngredientDetailsUI ingredientData={ingredientData} />
+    </div>
   );
 };
