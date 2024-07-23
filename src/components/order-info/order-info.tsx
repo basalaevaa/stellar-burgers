@@ -6,9 +6,7 @@ import { Modal } from '@components';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector, RootState } from '../../services/store';
 import { getOrderByNumber } from '../../services/slices/orderSlice';
-
-// Import styles
-import modalStyles from '../ui/modal/modal.module.css';
+import style from '../ui/order-info/order-info.module.css';
 
 export const OrderInfo: FC = () => {
   const { number } = useParams<{ number: string }>();
@@ -84,14 +82,12 @@ export const OrderInfo: FC = () => {
   const isModal = location.state && location.state.background;
 
   return isModal ? (
-    <Modal title='Информация о заказе' onClose={handleClose}>
+    <Modal title={`Заказ № ${orderInfo.number}`} onClose={handleClose}>
       <OrderInfoUI orderInfo={orderInfo} />
     </Modal>
   ) : (
-    <div className={modalStyles.modal}>
-      <h1 className={`${modalStyles.modal__title} text text_type_main-large`}>
-        Информация о заказе
-      </h1>
+    <div className={style.centerContent}>
+      <h1 className={style.centerHeading}>Заказ № {orderInfo.number}</h1>
       <OrderInfoUI orderInfo={orderInfo} />
     </div>
   );

@@ -5,6 +5,7 @@ import { useSelector, RootState } from '../../services/store';
 import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import { Modal } from '@components';
 import modalStyles from '../ui/modal/modal.module.css';
+import style from '../ui/ingredient-details/ingredient-details.module.css';
 
 export const IngredientDetails: FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -46,10 +47,8 @@ export const IngredientDetails: FC = () => {
       <IngredientDetailsUI ingredientData={ingredientData} />
     </Modal>
   ) : (
-    <div className={modalStyles.modal}>
-      <h1 className={`${modalStyles.modal__title} text text_type_main-large`}>
-        Детали ингредиента
-      </h1>
+    <div className={style.centerContent}>
+      <h1 className={style.centerHeading}>Детали ингредиента</h1>
       <IngredientDetailsUI ingredientData={ingredientData} />
     </div>
   );
