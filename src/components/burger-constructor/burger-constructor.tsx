@@ -51,7 +51,7 @@ export const BurgerConstructor: FC = () => {
       return;
     }
     if (orderRequest) return;
-    if (!isAuthenticated) {
+    if (!localStorage.getItem('refreshToken')) {
       navigate('/login');
       return;
     }
@@ -83,6 +83,7 @@ export const BurgerConstructor: FC = () => {
       orderModalData={orderModalData}
       onOrderClick={onOrderClick}
       closeOrderModal={closeOrderModal}
+      data-cy='constructor'
     />
   );
 };
