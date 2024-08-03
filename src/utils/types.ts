@@ -65,7 +65,7 @@ export type TIngredientState = {
   mains: TIngredient[];
   ingredients: TIngredient[];
   isLoading: boolean;
-  error: null;
+  error: string | null;
 };
 
 export type TUserState = {
