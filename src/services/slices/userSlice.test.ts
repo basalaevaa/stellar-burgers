@@ -9,15 +9,9 @@ import reducer, {
   logoutUser,
   verifyUserAuth
 } from './userSlice';
-import { TRegisterData } from '@api';
-import { order } from './mocks';
+import { order, registerData } from './mocks';
 
 describe('userSlice', () => {
-  const mockRegisterData: TRegisterData = {
-    name: 'Test User',
-    email: 'test@example.com',
-    password: 'password123'
-  };
 
   const createTestStore = () => {
     return configureStore({
@@ -37,7 +31,7 @@ describe('userSlice', () => {
 
   it('должен корректно обрабатывать состояние pending для registerUser', () => {
     const store = createTestStore();
-    store.dispatch(registerUser.pending('', mockRegisterData));
+    store.dispatch(registerUser.pending('', registerData));
     const state = store.getState().user;
     expect(state.isUserRequesting).toBe(true);
     expect(state.errorMsg).toBeNull();
@@ -46,7 +40,7 @@ describe('userSlice', () => {
   it('должен корректно обрабатывать состояние rejected для registerUser', () => {
     const store = createTestStore();
     const error = new Error('Ошибка регистрации');
-    store.dispatch(registerUser.rejected(error, '', mockRegisterData));
+    store.dispatch(registerUser.rejected(error, '', registerData));
     const state = store.getState().user;
     expect(state.isUserRequesting).toBe(false);
     expect(state.errorMsg).toBe('Ошибка регистрации');
@@ -91,13 +85,13 @@ describe('userSlice', () => {
     const store = createTestStore();
     store.dispatch(
       getUser.fulfilled(
-        { success: true, user: mockRegisterData },
+        { success: true, user: registerData },
         '',
         undefined
       )
     );
     const state = store.getState().user;
-    expect(state.userInfo).toEqual(mockRegisterData);
+    expect(state.userInfo).toEqual(registerData);
     expect(state.isUserRequesting).toBe(false);
     expect(state.isAuthVerified).toBe(true);
   });
@@ -138,7 +132,7 @@ describe('userSlice', () => {
 
   it('должен корректно обрабатывать состояние pending для updateUser', () => {
     const store = createTestStore();
-    store.dispatch(updateUser.pending('', mockRegisterData));
+    store.dispatch(updateUser.pending('', registerData));
     const state = store.getState().user;
     expect(state.isUserRequesting).toBe(true);
     expect(state.errorMsg).toBeNull();
@@ -148,13 +142,13 @@ describe('userSlice', () => {
     const store = createTestStore();
     store.dispatch(
       updateUser.fulfilled(
-        { success: true, user: mockRegisterData },
+        { success: true, user: registerData },
         '',
-        mockRegisterData
+        registerData
       )
     );
     const state = store.getState().user;
-    expect(state.userInfo).toEqual(mockRegisterData);
+    expect(state.userInfo).toEqual(registerData);
     expect(state.isUserRequesting).toBe(false);
     expect(state.isAuthVerified).toBe(true);
   });
@@ -162,7 +156,7 @@ describe('userSlice', () => {
   it('должен корректно обрабатывать состояние rejected для updateUser', () => {
     const store = createTestStore();
     const error = new Error('Ошибка обновления');
-    store.dispatch(updateUser.rejected(error, '', mockRegisterData));
+    store.dispatch(updateUser.rejected(error, '', registerData));
     const state = store.getState().user;
     expect(state.isUserRequesting).toBe(false);
     expect(state.errorMsg).toBe('Ошибка обновления');

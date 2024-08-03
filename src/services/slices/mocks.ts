@@ -1,4 +1,5 @@
 import { TIngredient, TOrder } from '@utils-types';
+import { TRegisterData } from '@api';
 
 export const bun: TIngredient = {
   _id: '643d69a5c3f7b9001cfa093c',
@@ -56,6 +57,12 @@ export const order: TOrder = {
   ]
 };
 
+export const registerData: TRegisterData = {
+    name: 'Test User',
+    email: 'test@example.com',
+    password: 'password123'
+  };
+
 export const mockStates = {
   pending: {
     isLoading: true
@@ -70,3 +77,4 @@ export const mockStates = {
     error: 'Ошибка'
   }
 };
+
