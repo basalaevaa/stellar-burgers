@@ -7,12 +7,12 @@ import {
   logoutApi,
   registerUserApi,
   updateUserApi
-} from '@api';
+} from '../../utils/burger-api';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { TUserState } from '@utils-types';
 import { deleteCookie, setCookie } from '../../utils/cookie';
 
-const initialUserState: TUserState = {
+export const initialUserState: TUserState = {
   errorMsg: null,
   isAuthVerified: false,
   userInfo: null,

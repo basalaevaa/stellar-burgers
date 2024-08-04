@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getIngredientsApi } from '@api';
+import { getIngredientsApi } from '../../utils/burger-api';
 import { TIngredientState } from '@utils-types';
 
-const initialState: TIngredientState = {
+export const initialState: TIngredientState = {
   buns: [],
   sauces: [],
   mains: [],
@@ -16,7 +16,7 @@ export const loadIngredients = createAsyncThunk(
   getIngredientsApi
 );
 
-const ingredientsSlice = createSlice({
+export const ingredientsSlice = createSlice({
   name: 'ingredients',
   initialState,
   reducers: {},
@@ -34,8 +34,9 @@ const ingredientsSlice = createSlice({
         state.sauces = action.payload.filter((item) => item.type === 'sauce');
         state.mains = action.payload.filter((item) => item.type === 'main');
       })
-      .addCase(loadIngredients.rejected, (state) => {
+      .addCase(loadIngredients.rejected, (state, action) => {
         state.isLoading = false;
+        state.error = action.error.message || 'Something went wrong'; // Преобразование ошибки в строку
       });
   }
 });
